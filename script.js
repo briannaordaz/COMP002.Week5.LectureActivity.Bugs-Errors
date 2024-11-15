@@ -33,9 +33,6 @@ myCode(150); // output: invalid
 // Is less than 0 
 // Is greater than 100
  
-
-// Once you have that code working, create a new custom exception and throw that instead of a generic exception.
-//Once you have that working, write code that handles the exception and then call your function.
 function myCar(i) {
     if (typeof i !== 'number') {
         throw new Error("Numbers only!");
@@ -54,3 +51,57 @@ try {
 }   catch (error)  {
     console.log(error);
 }
+
+// Once you have that code working, create a new custom exception and throw that instead of a generic exception.
+class ErrorNumber extends Error {
+    constructor(message, numbers) {
+        super(message);
+        this.property = "ErrorNumber";
+        this.numbers = numbers; 
+    }
+}
+
+function myLaptop(b) {
+    if (typeof b !== 'number') {
+        throw new ErrorNumber("Only Numbers allowed.");
+    }
+    if (b < 0 || b > 100) {
+        throw new ErrorNumber("Only numbers from 0-100 allowed");
+    }
+    console.log(b + " is valid");
+}
+
+
+//Once you have that working, write code that handles the exception and then call your function.
+try {
+    myLaptop("hi"); // Output: Only Numbers allowed.
+    
+} catch (error) {
+    if (error instanceof ErrorNumber) {
+        console.error(`${error.message} numbers({$error.numbers}) ${error.property}`)
+    } else {
+        console.error("idk " + error.message);
+    }
+}   
+
+try {
+    myLaptop(200); // Output: Only numbers from 0-100 allowed numbers
+    
+} catch (error) {
+    if (error instanceof ErrorNumber) {
+        console.error(`${error.message} numbers({$error.numbers}) ${error.property}`)
+    } else {
+        console.error("idk " + error.message);
+    }
+}   
+
+try {
+    myLaptop(10); // Output: 10 is valid
+    
+} catch (error) {
+    if (error instanceof ErrorNumber) {
+        console.error(`${error.message} numbers({$error.numbers}) ${error.property}`)
+    } else {
+        console.error("idk " + error.message);
+    }
+}   
